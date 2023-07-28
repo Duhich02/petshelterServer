@@ -12,6 +12,7 @@ import { ConfigModule } from "@nestjs/config";
 // import { Comment } from "./comments/entities/comment.entity";
 // import { AuthModule } from "./auth/auth.module";
 import { User } from "./users/entities/user.entity";
+import { Pet } from "./pets/entities/pet.entity";
 import { BullModule } from "@nestjs/bull";
 // import { ModerationModule } from "./moderation/moderation.module";
 
@@ -27,15 +28,15 @@ import { BullModule } from "@nestjs/bull";
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, Pet],
       synchronize: true,
     }),
-    BullModule.forRoot({
-      redis: {
-        host: "localhost",
-        port: 6379,
-      },
-    }),
+    // BullModule.forRoot({
+    //   redis: {
+    //     host: "localhost",
+    //     port: 6379,
+    //   },
+    // }),
     PetsModule,
     UsersModule,
   ],

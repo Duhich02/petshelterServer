@@ -1,15 +1,46 @@
 import { PartialType } from "@nestjs/mapped-types";
-// import { CreateTaskDto } from "./create-task.dto";
-// import { Comment } from "src/comments/entities/comment.entity";
-import * as Joi from "joi";
 import { CreatePetDto } from './create-pet.dto';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class UpdatePetDto extends PartialType(CreatePetDto) {
-    title?: string;
-    comments?: Comment[];
+    @ApiProperty({
+        description: "Кличка зверушки",
+    })
+    name: string;
+
+    @ApiProperty({
+        description: "Фото мордашки",
+    })
+    photo: string;
+
+    @ApiProperty({
+        description: "Досье объекта",
+    })
+    info: string;
+
+    @ApiProperty({
+        description: "Идентификационный номер зверя",
+    })
+    id: number;
+
+    @ApiProperty({
+        description: "Полных лет питомцу",
+    })
+    age: number;
+
+    @ApiProperty({
+        description: "Вид животного(кот/пёс)",
+    })
+    kind: string;
+
+    @ApiProperty({
+        description: "Пол животного",
+    })
+    sex: string;
+
+    @ApiProperty({
+        description: "Стериализован?",
+    })
+    sterilization: string;
 }
 
-export const UpdatePetSchema = Joi.object({
-    title: Joi.string(),
-    comments: Joi.number(),
-});

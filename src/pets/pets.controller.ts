@@ -2,17 +2,25 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { ApiTags, ApiResponse } from "@nestjs/swagger";
+import {Pet} from "./entities/pet.entity";
 
+@ApiTags("Pets")
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
+  @ApiResponse({
+    status: 201,
+    description: "Питомец добавлен",
+    type: Pet,
+  })
 
-  @Post()
+  @Post('/')
   create(@Body() createPetDto: CreatePetDto) {
     return this.petsService.create(createPetDto);
   }
 
-  @Get()
+  @Get('/')
   findAll() {
     return this.petsService.findAll();
   }
@@ -32,3 +40,4 @@ export class PetsController {
     return this.petsService.remove(+id);
   }
 }
+

@@ -10,35 +10,28 @@ import * as bcrypt from "bcrypt";
 export class UsersService {
   constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
-  async register(createUserDto: CreateUserDto): Promise<CreateUserDto & User> {
-    const saltOrRounds = 10;
-    createUserDto.password = await bcrypt.hash(createUserDto.password, saltOrRounds);
+  public users : CreateUserDto[] = [];
 
-    return this.repository.save(createUserDto);
+  create(data: CreateUserDto) {
+    return this.repository.save(data);
   }
 
-  async login(createUserDto: CreateUserDto): Promise<boolean> {
-    const user = await this.repository.findOneBy({
-      email: createUserDto.email,
-    });
-
-    if (!user) return false;
-    return await bcrypt.compare(createUserDto.password, user.password);
-  }
-
-  async findAll(): Promise<User[]> {
+  findAll() {
     return this.repository.find();
   }
 
-  async findOne(email: string): Promise<User> {
-    return this.repository.findOneBy({ email });
+  findOne(id: number) {
+    return this.repository.findOneBy({id});
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<UpdateUserDto & User> {
-    return this.repository.save({ ...updateUserDto, id });
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
   }
 
-  remove(id: number): Promise<DeleteResult> {
-    return this.repository.delete(id);
+  remove(id: number) {
+    return `This action removes a #${id} user`;
   }
 }
+
+
+
