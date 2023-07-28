@@ -1,37 +1,44 @@
-import { Controller, Body, Patch, Param, Delete } from "@nestjs/common";
-import { UsersService } from "./users.service";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from "./entities/user.entity";
-import { DeleteResult } from "typeorm";
-// import { AuthService } from "src/auth/auth.service";
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import {ApiResponse, ApiTags} from "@nestjs/swagger";
+import {PetsService} from "../pets/pets.service";
+import {Pet} from "../pets/entities/pet.entity";
+import {User} from "./entities/user.entity";
 
-@Controller("users")
+@ApiTags("Users")
+@Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService // private authService: AuthService
-  ) {}
+  constructor(private usersService: UsersService) {}
+  @ApiResponse({
+    status: 201,
+    description: "Пользователь добавлен",
+    type: User,
+  })
 
-  // @Post("/register")
-  // register(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.register(createUserDto);
-  // }
+  @Post('/')
+  create(@Body() user: CreateUserDto) {
+    return this.usersService.create(user);
+  }
 
-  // @UseGuards(AuthGuard("local"))
-  // @Post("/login")
-  // async login(@Request() req) {
-  //   return this.authService.login(req.user);
-  // }
+  @Get('/')
+  findAll() {
+    return this.usersService.findAll();
+  }
 
-  @Patch(":id")
-  update(
-    @Param("id") id: string,
-    @Body() updateUserDto: UpdateUserDto
-  ): Promise<UpdateUserDto & User> {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string): Promise<DeleteResult> {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 }
