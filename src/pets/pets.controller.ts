@@ -11,7 +11,7 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
   @ApiResponse({
     status: 201,
-    description: "Питомец добавлен",
+    description: "Питомец добавлен!",
     type: Pet,
   })
 
